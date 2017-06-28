@@ -1,5 +1,4 @@
-WFC3/UVIS External CTE Monitor
-==============================
+# WFC3/UVIS External CTE Monitor
 
 Author: C.M. Gosmeyer
 
@@ -17,8 +16,7 @@ Last Update: 12 Feb. 2017
 -------------------------------------------------------------------------------
 
 
-Contents
-++++++++
+## Contents
 
 0. Introduction
 
@@ -55,8 +53,7 @@ Contents
 -------------------------------------------------------------------------------
 
 
-0. Introduction
-+++++++++++++++
+## 0. Introduction
 
 This document is meant as a guide for setting up and running the pipeline 
 of the external Charge Transfer Efficiency (CTE) monitor. All scripts are 
@@ -101,9 +98,7 @@ observation setup or on analysis of results.
 -------------------------------------------------------------------------------
 
 
-1. Instrument Science Reports and Relevant Documents
-++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+## 1. Instrument Science Reports and Relevant Documents
 
 "The Efficacy of Post- Flashing for Mitigating CTE-Losses in WFC3/UVIS Images."
 J. Anderson, J. MacKenty, S. Baggett, and K. Noeske, K., 2012
@@ -136,38 +131,38 @@ http://www.stsci.edu/hst/wfc3/documents/handbooks/currentIHB/c06_uvis10.html
 -------------------------------------------------------------------------------
 
 
-2. Proposals
-++++++++++++
+## 2. Proposals
 
 (Based on Table 1 of ISR 2015-03)
 
-Program	Cycle	Obs Dates			Filters		Targets
--------------------------------------------------------------------------------
-11924	17	Oct 2009,Mar 2010,Sep 2010	F502N, F606W	NGC6791
+Program	| Cycle	| Obs Dates	|		Filters	|	Targets | URL
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+11924	| 17 Oct 2009,Mar 2010,Sep 2010	| F502N, F606W |	NGC6791 | 
 http://www.stsci.edu/hst/phase2-public/11924.pdf
 
-12348	18	Sep 2010			F502N		NGC104
+12348 | 18	Sep 2010	|		F502N	|	NGC104 | 
 http://www.stsci.edu/hst/phase2-public/12348.pdf
 
-12379	18	Nov 2010,Mar 2011,Apr 2011	F502N, F606W	NGC6791, NGC104
+12379	| 18	Nov 2010,Mar 2011,Apr 2011	| F502N, F606W	| NGC6791, NGC104 | 
 http://www.stsci.edu/hst/phase2-public/12379.pdf
 
-12692	19	Oct 2011,Mar 2012,Jun/Jul 2012	F502N, F606W	NGC6791, NGC104
+12692	| 19	Oct 2011,Mar 2012,Jun/Jul 2012 | F502N, F606W	| NGC6791, NGC104 | 
 http://www.stsci.edu/hst/phase2-public/12692.pdf
 
-13083	20	Nov 2012,Mar 2013,Jul/Aug 2013	F502N		NGC6791, NGC104
+13083	| 20	Nov 2012,Mar 2013,Jul/Aug 2013 |	F502N	|	NGC6791, NGC104 | 
 http://www.stsci.edu/hst/phase2-public/13083.pdf
 
-13566	21	Jan 2014,Jul 2014		F502N		NGC6791, NGC104
+13566 |	21	Jan 2014,Jul 2014 |	F502N	| NGC6791, NGC104 | 
 http://www.stsci.edu/hst/phase2-public/13566.pdf
 
-14012	22	Feb 2015,Jun 2015		F502N		NGC6791, NGC104
+14012 | 	22	Feb 2015,Jun 2015	|	F502N	|	NGC6791, NGC104 | 
 http://www.stsci.edu/hst/phase2-public/14012.pdf
 
-14378 23  Jan 2016, Jul-Aug 2016  F502N,  NGC6791, NGC104
+14378 | 23  Jan 2016, Jul-Aug 2016 | F502N |  NGC6791, NGC104 | 
 http://www.stsci.edu/hst/phase2-public/14378.pdf
 
-14541 24 Jan 2017, ...
+14541 | 24 Jan 2017, ... | F502N | NGC6791, NGC104 | 
 http://www.stsci.edu/hst/phase2-public/14541.pdf
 
 Notes:
@@ -193,8 +188,7 @@ id=12379&markupFormat=html&observatory=HST)
 -------------------------------------------------------------------------------
 
 
-3. Running the Pipeline
-+++++++++++++++++++++++
+## 3. Running the Pipeline
 
 The scripts are written in Python.  They were originally in IDL, Fortran, 
 and IRAF, written by V. Platais (geometric distortions) and K. Noeske 
@@ -211,8 +205,7 @@ We will not go into the inner workings of each module and function here.
 Please refer to their doc strings and comment lines. 
 
 
-3.1 Initial Setup
------------------
+### 3.1 Initial Setup
 
 A new user of the scripts should first complete all steps in this section. 
 
@@ -225,12 +218,16 @@ and you may need to wrestle with it to get IRAF running...
 1. Clone the `wfc3_cte_monitor` repo, to wherever convenient. The scripts
    are independent of the input data and the output file’s locations.
    Run the `setup.py`:
-
+   
+   ```
    >>> python setup.py develop
+   ```
 
 2. In your `wfc3_cte_monitor\wfc3_cte_monitor` directory run the script
 
+   ```
    >>> python initial_setup.py
+   ```
 
    and follow the prompts. You should now have a “data” and an “outputs” 
    directory where you specified.
@@ -263,12 +260,16 @@ and you may need to wrestle with it to get IRAF running...
 3. Clone cgosmeyer's `photutils_plus` repo. Go to its top level and install
    as
 
+   ```
    >>> python setup.py develop
+   ```
 
    You should then be able to import the 'photutils_plus' package.  Check this 
    in ipython.
 
+   ```
    python> from photutils_plus import photutils_plus.
+   ```
 
 4. Likewise, clone cgosmeyer's `analysis_tools` repo and run its `setup.py`.
 
@@ -305,45 +306,59 @@ and you may need to wrestle with it to get IRAF running...
    To create the "uvis_external_cte.db" file and initialize the tables in
    the location you specified in `config.py` run 
 
+   ```
    >>> python database_interface.py   
+   ```
 
    To fill in the Master tables run
 
+   ```
    >>> populate_master_tables.py
+   ```
 
    Check that the database is correctly filled in. Go to the location of
    the SQLITE database and enter it with the following command.
 
+   ```
    >>> sqlite3 uvis_external_cte.db
+   ```
 
    Then do
 
+   ```
    sqlite> .tables
+   ```
 
    You should see all the following tables.
 
-    ngc104_fileinfo   ngc104_results    ngc6583_phot      ngc6791_master  
-    ngc104_master     ngc6583_fileinfo  ngc6583_results   ngc6791_phot    
-    ngc104_phot       ngc6583_master    ngc6791_fileinfo  ngc6791_results 
+       ngc104_fileinfo   ngc104_results    ngc6583_phot      ngc6791_master  
+       ngc104_master     ngc6583_fileinfo  ngc6583_results   ngc6791_phot    
+       ngc104_phot       ngc6583_master    ngc6791_fileinfo  ngc6791_results 
 
    Then to check that each table has all the correct columns, do, for 
    example,
     
+   ``` 
    sqlite> pragma table_info(ngc104_master);
+   ```
 
    You should see all the columns that were defined in the files located 
    in "detectors/scripts/uvis_external_cte/table_definitions"
 
    Finally check that the Master tables are filled in. For example,
 
+   ```
    sqlite> select id,xpix,ypix,ra,dec from ngc6583_master;
+   ```
 
    You should see columns printed containing the catalog information
    from the .cat files located in "master_cat/final/".
 
    To quit SQLITE, do
 
+   ```
    sqlite> .exit
+   ```
 
    Note that there will be *no* entries in the columns until you ingest
    the data, as outlined in Section 3.2. 
@@ -360,7 +375,7 @@ just import them from here so you know they will always be consistently the
 same across all functions (and hopefully all correct!).
 An example import of the targets would be 
 
-    from config import target_list
+    `from config import target_list`
 
 Note that all the looping lists and switches in the pipeline are either set 
 in the config.py or are arguments (some of them with default values) in the
@@ -372,8 +387,7 @@ looping over and doing EVERYTHING, use the command-line switches parsed by
 This idea has been imperfectly implemented as yet; see Section 6. 
 
 
-3.2 Procedure for Ingesting ALL the Data
-----------------------------------------
+### 3.2 Procedure for Ingesting ALL the Data
 
 1. If you do not already have them in your "data" directory, retrieve 
    all the FLCs and FLTs from MAST for all proposal numbers listed above
@@ -389,7 +403,9 @@ This idea has been imperfectly implemented as yet; see Section 6.
 3. If you are running all data for the first time (i.e., you have not yet 
    filled in the FileInfo or Phot tables), do
 
+   ```
    >>> python run_uvis_external_cte.py --pr 'all' 
+   ```
 
    This step also works if you want to re-fill in the database, i.e.,
    if you found an error in photometry. All entries will get overwritten.
@@ -412,8 +428,7 @@ This idea has been imperfectly implemented as yet; see Section 6.
 6. Read Section 3.3 for more information on individual steps.
 
 
-3.3 Procedure for General Run of the Pipeline
----------------------------------------------
+### 3.3 Procedure for General Run of the Pipeline
 
 Follow this procedure if you have a new epoch to ingest.
 If starting a new Cycle, be sure that the proposal list in `config.py` 
@@ -434,7 +449,9 @@ is updated. (And, of course, update this file's "Programs" section!)
 
 3. In "data/newdata" run 
 
+   ```
    >>> python run_tweakreg.py
+   ```
 
    This will correct the WCS of each image so that the photometry scripts 
    can match the stars exactly to the Master catalog using RAs and Decs.
@@ -470,12 +487,16 @@ is updated. (And, of course, update this file's "Programs" section!)
    ('last') proposal is being ingested. So to run the pipeline in this case, 
    you only need specify one parameter,
 
+   ```
    >>> python run_uvis_external_cte.py --pr 'last' 
+   ```
 
    Read the doc strings of `run_uvis_external_cte.py` for more options.
    You can also see all the parameter options on the commandline by
 
+   ```
    >>> python run_uvis_external_cte.py -h
+   ```
 
    The pipeline can be run over a specific proposal or over all the 
    proposals, as well as many other variations of plots created and options 
@@ -501,11 +522,12 @@ is updated. (And, of course, update this file's "Programs" section!)
    Anyway! You can instead specify the exact proposal number and exact 
    visit number(s) like in this example:
 
+   ```
    >>> python run_uvis_external_cte.py --pr '14012' --v 3 4
+   ```
 
 
-3.4 Procedure for Processing the 180-Degree ('Same-Chip') Dataset
------------------------------------------------------------------
+### 3.4 Procedure for Processing the 180-Degree ('Same-Chip') Dataset
 
 The 180-degree dataset is from proposal 12692, visits 10 and 11,
 imaging the non-nominal star cluster NGC 6583. Its purpose was
@@ -519,7 +541,9 @@ tables in the database: ngc6583_master, etc.
 Run the FLTs and FLCs through the tweakreg scripts as you normally would 
 for the other datasets. Then to run the pipeline on these data, simply do
 
+```
 >>> python run_uvis_external_cte.py --pr '180'
+```
 
 Outputs will be ingested into the database and the files will be
 sorted just like the other datasets. For example, outputs/finalresults/pf0/most_recent/ngc6583_F502N_l
@@ -549,7 +573,7 @@ the image pairs are matched.
 Right now the image-pair matching is a bit hokey. Go to `run_image_extraction.py`
 in the function `create_param_dict`.  There is the line
 
-  if '6583' in targname:
+    if '6583' in targname:
 
 This procedes to assign images to chip numbers based on hard-coded strings, 
 which are unique letters in each of the image's filenames.  As a one-off test, 
@@ -574,8 +598,7 @@ sophisticated retrieval of the 'obstime' from the headers or whatever.)
 
 
 
-3.5 Procedure for Switching Between Python and IRAF Photometry
---------------------------------------------------------------
+### 3.5 Procedure for Switching Between Python and IRAF Photometry
 
 I actually have two SQLITE databases which are identical except that
 one contains photometry from Python's `photutils.aperture_photometry`
@@ -586,10 +609,12 @@ To switch between them, you need do two things.
 First, you need change the name of the database in the `config.py` file.
 
 For my Python-based database:
-    db_name = 'uvis_external_cte.db'
+
+     db_name = 'uvis_external_cte.db'
 
 For my IRAF-based databse:
-    db_name = 'uvis_external_cte_iraf.db'
+
+     db_name = 'uvis_external_cte_iraf.db'
 
 Second, when you run the full pipeline (with the intent to do photometry), 
 you need switch IRAF on with the following keyword in order for IRAF-readable 
@@ -597,7 +622,9 @@ coordinate files to be generated, photometry be performed with the `iraf.phot`
 function, and for outputs to be placed in the proper *_iraf subdirectories 
 of "outputs".
 
+```
 >>> run_uvis_external_cte.py --irafphot 'y'
+```
 
 By default this option is 'n'.
 
@@ -610,8 +637,7 @@ See Section 6 for an explanation why I stuck to IRAF photometry for the
 time being.
 
 
-3.6 Example Use Cases of the Pipeline
--------------------------------------
+### 3.6 Example Use Cases of the Pipeline
 
 Below we give examples for running the scrips in several scenarios.
 
@@ -619,12 +645,16 @@ Below we give examples for running the scrips in several scenarios.
   program (ie, 12379) for aperture 3 and only want to recalculate the
   slope plots,
 
+  ```
   >>> python run_uvis_external_cte.py --pr '12379' --ap 3 --pl 'ratio_ypos'
+  ```
 
 
 * If want to do all photometry and plots for 180-degree dataset,
 
+  ```
   >>> python run_uvis_external_cte.py --pr '180' --pl 'ratio_ypos' '180cte_expt' --ao 'n'
+  ```
 
 And so on.   
 
@@ -636,8 +666,7 @@ observation. Many side projects could result from this!
 
 -------------------------------------------------------------------------------
 
-4. Care and Feeding of the Database
-+++++++++++++++++++++++++++++++++++
+## 4. Care and Feeding of the Database
 
 The database is SQLITE, basically a file with the extension DB.  It can be
 copied, moved, or whatever. Each database 'file' is made up of tables (e.g., 
@@ -651,8 +680,7 @@ See Section 5 for a list of all modules and scripts relevent for interacting
 with the database. 
 
 
-4.1 Procedure for Adding/Renaming a Column
-------------------------------------------
+### 4.1 Procedure for Adding/Renaming a Column
 
 1. In the "table_definitions" subdirectory of this repo, open the table
    for which you want to add a column. Then type the name of the column
@@ -666,24 +694,32 @@ with the database.
    photometry.
 
 3. Copy the database for safety.
+   
+   ```
    >>> cp uvis_external_cte.db uvis_external_cte_copy.db
+   ```
 
 4. Enter SQL to drop the table for which you want to add/rename a column.
    This is permanent!  Be sure you saved a copy of the database!!
 
+   ```
    >>> sqlite3 uvis_external_cte.db
 
    sqlite> drop table table_name;
 
    sqlite> .exit
+   ```
 
 5. Re-generate the table. It should now contain the new/renamed column.
 
+   ```
    >>> python database_interface.py  
+   ```
 
    Check that the table and its new/renamed column is there by entering 
    SQL again.
 
+   ```
    >>> sqlite3 uvis_external_cte.db
 
    sqlite> .tables
@@ -691,6 +727,7 @@ with the database.
    sqlite> pragma table_info(table_name);
 
    sqlite> .exit
+   ```
 
 6. Re-populate the table.  Feel free to modify this step as needed.  It
    will depend on your column. You might be able to just use the 
@@ -704,8 +741,7 @@ with the database.
    somewhere in a different safe directory anyway!).
 
 
-4.2 Procedure for Removing a Column
------------------------------------
+### 4.2 Procedure for Removing a Column
 
 1. In the "table_definitions" subdirectory of this repo, open the table
    that contains the column and delete its entry.
@@ -717,8 +753,7 @@ with the database.
    the column.
 
 
-4.3 Procedure for Adding a Table
---------------------------------
+### 4.3 Procedure for Adding a Table
 
 Likely any new table you create will need have counterparts for each
 target. For examle: master_ngc104, master_ngc6791, master_ngc6583.
@@ -748,11 +783,14 @@ the same updating and retrieving functions.
 
 4. Run `database_interface.py` to generate the new tables.
 
+   ```
    >>> python database_interface.py  
+   ```
 
    Go into SQL to check that the new tables are there with the correct 
    columns.
 
+   ```
    >>> sqlite3 uvis_external_cte.db
 
    sqlite> .tables
@@ -760,6 +798,7 @@ the same updating and retrieving functions.
    sqlite> pragma table_info(table_name);
 
    sqlite> .exit
+   ```
 
 5. You may consider adding a "reset" function to `database_reset.py`.  
    May or may not be viable for your new table class.
@@ -776,28 +815,34 @@ Master, FileInfo, and Phot tables using the data from the old database.
 Go into `database_reset.py` and modify the Main in order to reset the
 tables you desire.
 
+```
 >>> python database_reset.py
+```
 
 Note that there is not currently a function for reseting the Results tables.
 You'll still need to run the pipeline like this:
 
+```
 >>> python run_uvis_external_cte.py --pr 'all' --dofind 'n' --dophot 'n' --pl 'ratio_ypos'
+```
 
 The Master tables always need be generated first.  If starting from scratch
 and you don't want to re-populate with old data, just repopulate the Master
 tables with:
 
+```
 >>> python populate_master_tables.py
+```
 
 
-4.5 Help! The Database Locked Me Out!
--------------------------------------
+### 4.5 Help! The Database Locked Me Out!
 
 Sometimes the database 'locks' when it the pipeline crashes mid-injestion.
 Fortunately unlocking it is a two-command procedure. Go to where the database
 is located and do
 
->>> fuser uvis_external_cte_iraf.db
+    >>> fuser uvis_external_cte_iraf.db
+
 
 You will get a message about what process locked the database. For example,
 
@@ -805,18 +850,16 @@ You will get a message about what process locked the database. For example,
 
 To unlock the database, you just need to kill the process (here, '1234'):
 
->>> kill -9 1234
+    >>> kill -9 1234
 
 
 
 -------------------------------------------------------------------------------
 
 
-5. Summary of Scripts and Modules
-+++++++++++++++++++++++++++++++++
+## 5. Summary of Scripts and Modules
 
-5.1 Pipeline 
-------------
+### 5.1 Pipeline 
 
 * config.py -- filled by initial_setup.py. Used for setting global lists
    and paths, for import.
@@ -848,8 +891,7 @@ To unlock the database, you just need to kill the process (here, '1234'):
 * uvis_external_cte_plots.py -- contains plot-creation functions. 
 
 
-5.2 Database
-------------
+### 5.2 Database
 
 * database_interface -- Module to interface and connect to the database.  
   When run as script on command line, creates initial empty database.
@@ -866,8 +908,7 @@ To unlock the database, you just need to kill the process (here, '1234'):
 * populate_master_tables -- Populates all the Master tables.
 
 
-5.3 For Tests and ISRs
-----------------------
+### 5.3 For Tests and ISRs
 
 * compare_idl_python.py -- overplots IDL pipeline CTE measurements on
    Python pipeline measurements. For ISR 2017-xx.
@@ -888,8 +929,7 @@ To unlock the database, you just need to kill the process (here, '1234'):
 -------------------------------------------------------------------------------
 
 
-6. Issues and Future Improvements
-+++++++++++++++++++++++++++++++++
+## 6. Issues and Future Improvements
 
 These can be used as exercises for the new monitor lead to get used to the scripts
 and database.  They are in no particular order of importance. 
