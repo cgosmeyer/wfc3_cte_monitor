@@ -27,24 +27,35 @@ Last Update: 12 Feb. 2017
 3. Running the Pipeline
 
    3.1 Initial Setup
+   
    3.2 Procedure for Ingesting ALL the Data
+   
    3.3 Procedure for General Run of the Pipeline
+   
    3.4 Procedure for Processing the 180-Degree ('Same-Chip') Dataset
+   
    3.5 Procedure for Switching Between Python and IRAF Photometry
+   
    3.6 Example Use Cases of the Pipeline
 
 4. Care and Feeding of the Database
 
    4.1 Procedure for Adding/Renaming a Column
+  
    4.2 Procedure for Removing a Column
+   
    4.3 Procedure for Adding a Table
+   
    4.4 Procedure for Re-Setting and Re-Populating Database
+   
    4.5 Help! The Database Locked Me Out!
 
 5. Summary of Scripts and Modules
 
    5.1 Pipeline
+   
    5.2 Database
+   
    5.3 For Tests and ISRs
 
 6. Issues and Future Improvements
