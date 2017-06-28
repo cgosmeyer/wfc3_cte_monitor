@@ -367,7 +367,7 @@ and you may need to wrestle with it to get IRAF running...
    for ingeseting ALL the data if you haven't yet copied the data into
    "outputs".
 
-* A note about the `config.py`*  
+** A note about the `config.py`**  
 You should *not* commit this once you add your personal paths.  
 In this file you will also find static lists of flux bin ranges, proposal
 IDs, target names, filters, and flash levels.  If you ever need these lists
@@ -459,6 +459,7 @@ is updated. (And, of course, update this file's "Programs" section!)
 
    Once the script is complete, go to the directory "outputs/tweakreg"
    and look through the diagonistic plots.
+   
    * hist2d_*_flc.png - 2d histogram bins should be centered.
    * residuals_*_flc.png - scatter points should be evenly distributed
      around line without systematics.
