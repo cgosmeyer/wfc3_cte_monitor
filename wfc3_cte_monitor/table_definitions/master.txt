@@ -1,0 +1,5 @@
+MASTER_ID, Integer
+XPIX, Float
+YPIX, Float
+RA, Float
+DEC, Float
